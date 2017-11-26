@@ -1,31 +1,32 @@
 #pragma once
-#include "CFormDocTest2.h"
+#include "CFormDocTest3.h"
 
 
 
-// CFormViewTest2 フォーム ビュー
+// CFormViewTest3 フォーム ビュー
 
-class CFormViewTest2 : public CFormView
+class CFormViewTest3 : public CFormView
 {
-	DECLARE_DYNCREATE(CFormViewTest2)
+	DECLARE_DYNCREATE(CFormViewTest3)
 
 protected:
-	//CFormViewTest2();           // 動的生成で使用される protected コンストラクター
-	virtual ~CFormViewTest2();
+	//CFormViewTest3();           // 動的生成で使用される protected コンストラクター
+	virtual ~CFormViewTest3();
 
 public:
-	CFormViewTest2();	// add
+	CFormViewTest3();	// add
+
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_FORMVIEW1};
+	enum { IDD = IDD_FORMVIEW1 };
 #endif
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 #ifndef _WIN32_WCE
 	virtual void Dump(CDumpContext& dc) const;
 #endif
-	inline CFormDocTest2* CFormViewTest2::GetDocument() const
+	inline CFormDocTest3* CFormViewTest3::GetDocument() const
 	{
-		return reinterpret_cast<CFormDocTest2*>(m_pDocument);
+		return reinterpret_cast<CFormDocTest3*>(m_pDocument);
 	}
 #endif
 	virtual void OnDraw(CDC* pDC);  // このビューを描画するためにオーバーライドされます。
@@ -37,7 +38,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButton1();
-
 };
 
 

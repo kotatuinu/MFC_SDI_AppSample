@@ -5,7 +5,7 @@
 #include "MFCApplication4.h"
 #include "CFormViewTest2.h"
 #include "CFormDocTest2.h"
-
+#include "CSDIViewChanger.h"
 
 // CFormViewTest2
 
@@ -27,6 +27,7 @@ void CFormViewTest2::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CFormViewTest2, CFormView)
+	ON_BN_CLICKED(IDC_BUTTON1, &CFormViewTest2::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 BOOL CFormViewTest2::PreCreateWindow(CREATESTRUCT& cs)
@@ -66,3 +67,14 @@ void CFormViewTest2::Dump(CDumpContext& dc) const
 
 
 // CFormViewTest2 メッセージ ハンドラー
+void CFormViewTest2::OnBnClickedButton1()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	MessageBox(_T("FormView2"));
+
+	//CMFCApplication4App *app = (CMFCApplication4App*)AfxGetApp();
+	//app->SwitchView(3);
+	CSDIViewChanger *pSDIViewChanger = CSDIViewChanger::getInstance();
+	pSDIViewChanger->SwitchView(1);
+
+}

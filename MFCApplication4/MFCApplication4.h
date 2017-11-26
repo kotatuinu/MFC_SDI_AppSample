@@ -19,8 +19,16 @@ class CMFCApplication4App : public CWinAppEx
 public :
 	std::vector<CSingleDocTemplate*> m_viewArray;
 
+private:
+	CView* m_pView2;
+	CView* m_pView3;
+private:
+	void x();
+	CView* SwitchView(CView* pNewView);
+
 public:
 	CMFCApplication4App();
+	void SwitchView(int no);
 
 
 // オーバーライド

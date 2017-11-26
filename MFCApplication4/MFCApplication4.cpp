@@ -15,6 +15,11 @@
 #include "CFormDocTest1.h"
 #include "CFormViewTest2.h"
 #include "CFormDocTest2.h"
+#include "CFormViewTest3.h"
+#include "CFormDocTest3.h"
+
+#include "CViewFrameController.h"
+#include "CSDIViewChanger.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -64,15 +69,15 @@ CMFCApplication4App theApp;
 
 BOOL CMFCApplication4App::InitInstance()
 {
+	CViewFrameController* pViewFrameController = CViewFrameController::getInstance();
 	{
 		CSingleDocTemplate* pNewDocTemplate = new CSingleDocTemplate(
 			IDR_FORMVIEWTEST2_TMPL,
-			//RUNTIME_CLASS(CMFCApplication4Doc),
 			RUNTIME_CLASS(CFormDocTest1),
 			RUNTIME_CLASS(CMainFrame),
-			//		RUNTIME_CLASS(CMFCApplication4View));
 			RUNTIME_CLASS(CFormViewTest1));
 		AddDocTemplate(pNewDocTemplate);
+		pViewFrameController->addFrame(pNewDocTemplate);
 	}
 
 	// アプリケーション マニフェストが visual スタイルを有効にするために、
@@ -112,7 +117,6 @@ BOOL CMFCApplication4App::InitInstance()
 	SetRegistryKey(_T("アプリケーション ウィザードで生成されたローカル アプリケーション"));
 	LoadStdProfileSettings(4);  // 標準の INI ファイルのオプションをロードします (MRU を含む)
 
-
 	InitContextMenuManager();
 
 	InitKeyboardManager();
@@ -129,31 +133,25 @@ BOOL CMFCApplication4App::InitInstance()
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
-		//RUNTIME_CLASS(CMFCApplication4Doc),
 		RUNTIME_CLASS(CFormDocTest1),
 		RUNTIME_CLASS(CMainFrame),       // メイン SDI フレーム ウィンドウ
-//		RUNTIME_CLASS(CMFCApplication4View));
 		RUNTIME_CLASS(CFormViewTest1));
 	if (!pDocTemplate)
 		return FALSE;
-//	AddDocTemplate(pDocTemplate);
-	m_viewArray.push_back(pDocTemplate);
+	pViewFrameController->addFrame(pDocTemplate);
 
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
-		//RUNTIME_CLASS(CMFCApplication4Doc),
 		RUNTIME_CLASS(CFormDocTest2),
 		RUNTIME_CLASS(CMainFrame),       // メイン SDI フレーム ウィンドウ
 		RUNTIME_CLASS(CFormViewTest2));
 	if (!pDocTemplate)
 		return FALSE;
-//	AddDocTemplate(pDocTemplate);
-	m_viewArray.push_back(pDocTemplate);
+	pViewFrameController->addFrame(pDocTemplate);
 
 	// DDE、file open など標準のシェル コマンドのコマンド ラインを解析します。
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
-
 
 
 	// コマンド ラインで指定されたディスパッチ コマンドです。アプリケーションが
@@ -161,10 +159,77 @@ BOOL CMFCApplication4App::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 
+	// 切り替え用Viewの設定
+	//x();
+	CSDIViewChanger *pSDIViewChanger = CSDIViewChanger::getInstance();
+	pSDIViewChanger->setMainWnd(m_pMainWnd);
+	pSDIViewChanger->addActiveView(new CFormViewTest3());
+
 	// メイン ウィンドウが初期化されたので、表示と更新を行います。
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
 	return TRUE;
+}
+
+//SDI内のView切り替え
+// http://www.softist.com/programming/sdi-multi-view/sdi-multi-view.htm からコピー
+void CMFCApplication4App::x()
+{
+	CView* pActiveView = ((CFrameWnd*)m_pMainWnd)->GetActiveView();
+	m_pView2 = pActiveView;
+	m_pView3 = new CFormViewTest3();
+
+	CDocument* pCurrentDoc = ((CFrameWnd*)m_pMainWnd)->GetActiveDocument();
+	CCreateContext newContext;
+	newContext.m_pNewViewClass = NULL;
+	newContext.m_pNewDocTemplate = NULL;
+	newContext.m_pLastView = NULL;
+	newContext.m_pCurrentFrame = NULL;
+	newContext.m_pCurrentDoc = pCurrentDoc;
+
+	UINT viewID = AFX_IDW_PANE_FIRST + 1;
+	CRect rect(0, 0, 0, 0); // gets resized later
+	m_pView3->Create(NULL, _T("View3"), WS_CHILD, rect, m_pMainWnd, viewID, &newContext);
+
+	m_pView3->ModifyStyleEx(0, WS_EX_CLIENTEDGE);
+	m_pView3->OnInitialUpdate();
+
+}
+
+CView* CMFCApplication4App::SwitchView(CView* pNewView)
+{
+	CView* pActiveView = ((CFrameWnd*)m_pMainWnd)->GetActiveView();
+
+	UINT temp = ::GetWindowLong(pActiveView->m_hWnd, GWL_ID);
+	::SetWindowLong(pActiveView->m_hWnd, GWL_ID, ::GetWindowLong(pNewView->m_hWnd, GWL_ID));
+	::SetWindowLong(pNewView->m_hWnd, GWL_ID, temp);
+
+	pActiveView->ShowWindow(SW_HIDE);
+	pNewView->ShowWindow(SW_SHOW);
+	((CFrameWnd*)m_pMainWnd)->SetActiveView(pNewView);
+	((CFrameWnd*)m_pMainWnd)->RecalcLayout();
+	pNewView->Invalidate();
+	return pActiveView;
+}
+
+void CMFCApplication4App::SwitchView(int no)
+{
+	switch (no)
+	{
+	case 1:
+		break;
+
+	case 2:
+		SwitchView(m_pView2);
+		break;
+
+	case 3:
+		SwitchView(m_pView3);
+		break;
+
+	default:
+		break;
+	}
 }
 
 int CMFCApplication4App::ExitInstance()

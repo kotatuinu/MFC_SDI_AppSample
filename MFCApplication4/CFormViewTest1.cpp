@@ -6,6 +6,7 @@
 #include "CFormViewTest1.h"
 #include "CFormDocTest1.h"
 
+#include "CViewFrameController.h"
 
 // CFormViewTest1
 
@@ -79,8 +80,9 @@ void CFormViewTest1::OnBnClickedButton1()
 	m_Edit1.GetWindowTextW(string);
 	CWnd *h = this->GetDlgItem(IDC_STATIC);
 	h->SetWindowTextW(string);
-	((CFormDocTest1*)GetDocument())->OnFormviewChange();
-	//BOOL b = PostMessage(ID_FORMVIEW_CHANGE);
-	//BOOL b = SendMessage(ID_FORMVIEW_CHANGE);
 
+
+	//((CFormDocTest1*)GetDocument())->OnFormviewChange();
+	CViewFrameController* pViewFrameController = CViewFrameController::getInstance();
+	pViewFrameController->changeFrame(1, GetDocument());
 }
