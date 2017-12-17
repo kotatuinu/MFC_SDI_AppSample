@@ -11,10 +11,6 @@ CViewFrameController::CViewFrameController()
 
 CViewFrameController::~CViewFrameController()
 {
-	for (std::vector<CSingleDocTemplate*>::iterator ite = m_pDocTemplateList.begin(); ite != m_pDocTemplateList.end(); ite++)
-	{
-		delete *ite;
-	}
 }
 
 CViewFrameController* CViewFrameController::getInstance()
@@ -24,6 +20,11 @@ CViewFrameController* CViewFrameController::getInstance()
 		m_instance = new CViewFrameController();
 	}
 	return m_instance;
+}
+
+void CViewFrameController::release()
+{
+	delete m_instance;
 }
 
 long CViewFrameController::addFrame(CSingleDocTemplate* pDocTemplate)

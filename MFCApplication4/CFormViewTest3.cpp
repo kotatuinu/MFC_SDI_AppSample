@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "MFCApplication4.h"
+
 #include "CFormViewTest3.h"
 #include "CFormDocTest2.h"
 
@@ -12,13 +13,18 @@
 IMPLEMENT_DYNCREATE(CFormViewTest3, CFormView)
 
 CFormViewTest3::CFormViewTest3()
-	: CFormView(IDD_FORMVIEW1)
+	: CFormView(IDD_FORMVIEW2)
 {
 
 }
 
 CFormViewTest3::~CFormViewTest3()
 {
+}
+
+void CFormViewTest3::setSDIViewChanger(CSDIViewChanger* pSDIViewChanger)
+{
+	pSDIViewChanger->addView(this);
 }
 
 void CFormViewTest3::DoDataExchange(CDataExchange* pDX)
@@ -71,9 +77,6 @@ void CFormViewTest3::Dump(CDumpContext& dc) const
 
 void CFormViewTest3::OnBnClickedButton1()
 {
-	// TODO: ここにコントロール通知ハンドラー コードを追加します。
-	MessageBox(_T("FormView3"));
-	CMFCApplication4App *app = (CMFCApplication4App*)AfxGetApp();
-	app->SwitchView(2);
-
+	CSDIViewChanger *pSDIViewChanger = NULL;
+	pSDIViewChanger->SwitchView(0UL);
 }

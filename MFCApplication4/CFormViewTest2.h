@@ -1,5 +1,6 @@
 #pragma once
 #include "CFormDocTest2.h"
+#include "CSDIViewChanger.h"
 
 
 
@@ -15,6 +16,7 @@ protected:
 
 public:
 	CFormViewTest2();	// add
+	void setSDIViewChanger(CSDIViewChanger* pSDIViewChanger);
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_FORMVIEW1};
 #endif

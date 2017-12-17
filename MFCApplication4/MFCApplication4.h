@@ -19,17 +19,9 @@ class CMFCApplication4App : public CWinAppEx
 public :
 	std::vector<CSingleDocTemplate*> m_viewArray;
 
-private:
-	CView* m_pView2;
-	CView* m_pView3;
-private:
-	void x();
-	CView* SwitchView(CView* pNewView);
-
 public:
 	CMFCApplication4App();
-	void SwitchView(int no);
-
+	~CMFCApplication4App();
 
 // オーバーライド
 public:
@@ -44,7 +36,7 @@ public:
 	virtual void LoadCustomState();
 	virtual void SaveCustomState();
 
-	afx_msg void OnAppAbout();
+	//afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 };
 

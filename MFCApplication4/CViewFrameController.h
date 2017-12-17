@@ -9,6 +9,7 @@ private:
 
 public:
 	static CViewFrameController* getInstance();
+	static void release();
 	~CViewFrameController();
 
 	long addFrame(CSingleDocTemplate* pDocTemplate);

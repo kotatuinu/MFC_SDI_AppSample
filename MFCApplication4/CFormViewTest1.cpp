@@ -7,6 +7,7 @@
 #include "CFormDocTest1.h"
 
 #include "CViewFrameController.h"
+#include "callback.h"
 
 // CFormViewTest1
 
@@ -30,6 +31,7 @@ void CFormViewTest1::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CFormViewTest1, CFormView)
 	ON_BN_CLICKED(IDC_BUTTON1, &CFormViewTest1::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CFormViewTest1::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 BOOL CFormViewTest1::PreCreateWindow(CREATESTRUCT& cs)
@@ -81,8 +83,15 @@ void CFormViewTest1::OnBnClickedButton1()
 	CWnd *h = this->GetDlgItem(IDC_STATIC);
 	h->SetWindowTextW(string);
 
-
-	//((CFormDocTest1*)GetDocument())->OnFormviewChange();
 	CViewFrameController* pViewFrameController = CViewFrameController::getInstance();
-	pViewFrameController->changeFrame(1, GetDocument());
+	pViewFrameController->changeFrame(2, GetDocument());
+}
+
+
+void CFormViewTest1::OnBnClickedButton2()
+{
+	CProgressObserver callback;
+	m_controller.clearObserver();
+	m_controller.addObserver(&callback);
+	m_controller.execute();
 }

@@ -3,13 +3,17 @@
 //
 
 #pragma once
+#include "CSDIViewChanger.h"
 
 class CMainFrame : public CFrameWndEx
 {
-	
+
 protected: // ƒVƒŠƒAƒ‹‰»‚©‚ç‚Ì‚İì¬‚µ‚Ü‚·B
 	CMainFrame();
 	DECLARE_DYNCREATE(CMainFrame)
+
+private:
+	CSDIViewChanger* m_pSDIViewChanger;
 
 // ‘®«
 public:

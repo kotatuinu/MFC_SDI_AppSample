@@ -266,6 +266,8 @@ BEGIN
     EDITTEXT        IDC_EDIT1,25,25,316,14,ES_AUTOHSCROLL
     LTEXT           "",IDC_STATIC,25,51,8,8
     LTEXT           "FormView0",IDC_STATIC,15,8,34,8
+    PUSHBUTTON      "Button2",IDC_BUTTON2,26,135,50,14
+    LTEXT           "スタティック",IDC_STATIC,84,135,28,8
 END
 
 IDD_FORMVIEW1 DIALOGEX 0, 0, 325, 339
@@ -383,8 +385,6 @@ BEGIN
 
     IDD_FORMVIEW2, DIALOG
     BEGIN
-        RIGHTMARGIN, 185
-        BOTTOMMARGIN, 93
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -406,6 +406,8 @@ BEGIN
     0, 0, 0, 0,
     0, 0, 100, 0,
     100, 0, 100, 0,
+    0, 0, 0, 0,
+    0, 0, 0, 0,
     0, 0, 0, 0
 END
 

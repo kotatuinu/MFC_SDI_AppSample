@@ -190,33 +190,43 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="callback.h" />
     <ClInclude Include="CFormDocTest1.h" />
     <ClInclude Include="CFormDocTest2.h" />
     <ClInclude Include="CFormDocTest3.h" />
     <ClInclude Include="CFormViewTest1.h" />
     <ClInclude Include="CFormViewTest2.h" />
     <ClInclude Include="CFormViewTest3.h" />
+    <ClInclude Include="controller.h" />
+    <ClInclude Include="converter.h" />
     <ClInclude Include="CSDIViewChanger.h" />
     <ClInclude Include="CViewCtrl.h" />
     <ClInclude Include="CViewFrameController.h" />
+    <ClInclude Include="CProgressObserver.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MFCApplication4.h" />
+    <ClInclude Include="module.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="callback.cpp" />
     <ClCompile Include="CFormDocTest1.cpp" />
     <ClCompile Include="CFormDocTest2.cpp" />
     <ClCompile Include="CFormDocTest3.cpp" />
     <ClCompile Include="CFormViewTest1.cpp" />
     <ClCompile Include="CFormViewTest2.cpp" />
     <ClCompile Include="CFormViewTest3.cpp" />
+    <ClCompile Include="controller.cpp" />
+    <ClCompile Include="converter.cpp" />
     <ClCompile Include="CSDIViewChanger.cpp" />
     <ClCompile Include="CViewCtrl.cpp" />
     <ClCompile Include="CViewFrameController.cpp" />
+    <ClCompile Include="CProgressObserver.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MFCApplication4.cpp" />
+    <ClCompile Include="module.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

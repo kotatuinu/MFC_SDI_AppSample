@@ -4,24 +4,25 @@
 class CSDIViewChanger
 {
 private:
-	static CWnd* m_pMainWnd;       // main window (usually same AfxGetApp()->m_pMainWnd)
+	CWnd* m_pMainWnd;       // main window (usually same AfxGetApp()->m_pMainWnd)
+	CView* m_MainView;
 	std::vector<CView*> m_ViewList;
-	static CSDIViewChanger* m_instance;
+	UINT m_viewID;
 
 public:
 	CSDIViewChanger();
 	~CSDIViewChanger();
-	static CSDIViewChanger* getInstance();
 
-	static void setMainWnd(CWnd* pMainWnd);
-	long addActiveView(CView* view);
-	void removeActiveView(CView* view);
+	void setMainWnd(CWnd* pMainWnd);
+	long addView(CView* view);
+	void removeView(CView* view);
 
 	long getListSize();
 
-	CView* SwitchView(CView* pNewView);
+	void SwitchMainView(const WCHAR* windowTitle = NULL);
+	CView* SwitchView(CView* pNewView, const WCHAR* windowTitle = NULL);
 	void SwitchView(ULONG no);
 private:
-
+	void copyViewParam(CView* pNewView);
 };
 

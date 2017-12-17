@@ -1,6 +1,6 @@
 #pragma once
 #include "CFormDocTest3.h"
-
+#include "CSDIViewChanger.h"
 
 
 // CFormViewTest3 フォーム ビュー
@@ -14,10 +14,10 @@ protected:
 	virtual ~CFormViewTest3();
 
 public:
-	CFormViewTest3();	// add
-
+	CFormViewTest3();           // 動的生成で使用される protected コンストラクター
+	void setSDIViewChanger(CSDIViewChanger* pSDIViewChanger);
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_FORMVIEW1 };
+	enum { IDD = IDD_FORMVIEW2 };
 #endif
 #ifdef _DEBUG
 	virtual void AssertValid() const;

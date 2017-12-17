@@ -1,28 +1,13 @@
 #include "stdafx.h"
 #include "CSDIViewChanger.h"
 
-CSDIViewChanger* CSDIViewChanger::m_instance = NULL;
-CWnd* CSDIViewChanger::m_pMainWnd = NULL;
-
 CSDIViewChanger::CSDIViewChanger()
 {
+	m_viewID = AFX_IDW_PANE_FIRST;
 }
 
 CSDIViewChanger::~CSDIViewChanger()
 {
-	for (std::vector<CView*>::iterator ite = m_ViewList.begin(); ite != m_ViewList.end(); ite++)
-	{
-		delete *ite;
-	}
-}
-
-CSDIViewChanger* CSDIViewChanger::getInstance()
-{
-	if (m_instance == NULL)
-	{
-		m_instance = new CSDIViewChanger();
-	}
-	return m_instance;
 }
 
 void CSDIViewChanger::setMainWnd(CWnd* pMainWnd)
@@ -30,14 +15,14 @@ void CSDIViewChanger::setMainWnd(CWnd* pMainWnd)
 	m_pMainWnd = pMainWnd;
 }
 
-long CSDIViewChanger::addActiveView(CView* view)
+long CSDIViewChanger::addView(CView* view)
 {
 	m_ViewList.push_back(view);
 	return m_ViewList.size();
 }
 void removeActiveView(CView* view);
 
-void CSDIViewChanger::removeActiveView(CView* view)
+void CSDIViewChanger::removeView(CView* view)
 {
 	for (std::vector<CView*>::iterator ite = m_ViewList.begin(); ite != m_ViewList.end(); ite++)
 	{
@@ -54,13 +39,9 @@ long CSDIViewChanger::getListSize()
 
 //SDI“à‚ÌViewØ‚è‘Ö‚¦
 // http://www.softist.com/programming/sdi-multi-view/sdi-multi-view.htm ‚©‚çƒRƒs[
-/*
-void CSDIViewChanger::x()
-{
-	CView* pActiveView = ((CFrameWnd*)m_pMainWnd)->GetActiveView();
-	m_pView2 = pActiveView;
-	m_pView3 = new CFormViewTest3();
 
+void CSDIViewChanger::copyViewParam(CView* pNewView)
+{
 	CDocument* pCurrentDoc = ((CFrameWnd*)m_pMainWnd)->GetActiveDocument();
 	CCreateContext newContext;
 	newContext.m_pNewViewClass = NULL;
@@ -69,18 +50,22 @@ void CSDIViewChanger::x()
 	newContext.m_pCurrentFrame = NULL;
 	newContext.m_pCurrentDoc = pCurrentDoc;
 
-	UINT viewID = AFX_IDW_PANE_FIRST + 1;
+	m_viewID++;
 	CRect rect(0, 0, 0, 0); // gets resized later
-	m_pView3->Create(NULL, _T("View3"), WS_CHILD, rect, m_pMainWnd, viewID, &newContext);
+	pNewView->Create(NULL, _T(""), WS_CHILD, rect, m_pMainWnd, m_viewID, &newContext);
 
-	m_pView3->ModifyStyleEx(0, WS_EX_CLIENTEDGE);
-	m_pView3->OnInitialUpdate();
-
+	pNewView->ModifyStyleEx(0, WS_EX_CLIENTEDGE);
+	pNewView->OnInitialUpdate();
 }
-*/
-CView* CSDIViewChanger::SwitchView(CView* pNewView)
+
+CView* CSDIViewChanger::SwitchView(CView* pNewView, const WCHAR* windowTitle)
 {
 	CView* pActiveView = ((CFrameWnd*)m_pMainWnd)->GetActiveView();
+	if (pNewView == pActiveView)
+	{
+		return pActiveView;
+	}
+	copyViewParam(pNewView);
 
 	UINT temp = ::GetWindowLong(pActiveView->m_hWnd, GWL_ID);
 	::SetWindowLong(pActiveView->m_hWnd, GWL_ID, ::GetWindowLong(pNewView->m_hWnd, GWL_ID));
@@ -91,16 +76,26 @@ CView* CSDIViewChanger::SwitchView(CView* pNewView)
 	((CFrameWnd*)m_pMainWnd)->SetActiveView(pNewView);
 	((CFrameWnd*)m_pMainWnd)->RecalcLayout();
 	pNewView->Invalidate();
-	return pActiveView;
+
+	if (windowTitle != NULL)
+	{
+		m_pMainWnd->SetWindowText(windowTitle);
+	}
+	return pNewView;
+}
+
+void CSDIViewChanger::SwitchMainView(const WCHAR* windowTitle)
+{
+	SwitchView(m_MainView, windowTitle);
 }
 
 void CSDIViewChanger::SwitchView(ULONG no)
 {
-
-	if (getListSize() > no)
-	{
-		// ERROR
-		return;
+	try {
+		SwitchView(m_ViewList.at(no));
 	}
-	SwitchView(m_ViewList.at(no));
+	catch (std::out_of_range &e)
+	{
+		//error
+	}
 }

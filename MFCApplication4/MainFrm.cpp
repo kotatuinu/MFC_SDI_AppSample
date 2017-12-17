@@ -6,7 +6,9 @@
 #include "MFCApplication4.h"
 
 #include "MainFrm.h"
+#include "CSDIViewChanger.h"
 
+#include "CFormViewTest2.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -40,7 +42,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	BOOL bNameValid;
+//	BOOL bNameValid;
 
 	/*
 		if (!m_wndMenuBar.Create(this))
@@ -92,6 +94,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		// ツール バーのクイック (Alt キーを押しながらドラッグ) カスタマイズを有効にします
 		CMFCToolBar::EnableQuickCustomization();
 		*/
+
+	m_pSDIViewChanger = new CSDIViewChanger();
+	m_pSDIViewChanger->setMainWnd(this);
+
+	CFormViewTest2 *view = (CFormViewTest2*)GetActiveView();
 
 	return 0;
 }

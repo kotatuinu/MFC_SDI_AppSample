@@ -2,13 +2,16 @@
 #include "afxwin.h"
 //#include "CFormDocTest1.h"
 #include "MFCApplication4Doc.h"
-
+#include "controller.h"
 
 // CFormViewTest1 フォーム ビュー
 
 class CFormViewTest1 : public CFormView
 {
 	DECLARE_DYNCREATE(CFormViewTest1)
+
+private:
+	controller m_controller;
 
 protected:
 	CFormViewTest1();           // 動的生成で使用される protected コンストラクター
@@ -40,6 +43,7 @@ protected:
 public:
 	afx_msg void OnBnClickedButton1();
 	CEdit m_Edit1;
+	afx_msg void OnBnClickedButton2();
 };
 
 

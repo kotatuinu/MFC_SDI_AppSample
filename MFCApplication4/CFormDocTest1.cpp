@@ -136,7 +136,6 @@ void CFormDocTest1::Dump(CDumpContext& dc) const
 
 void CFormDocTest1::OnFormviewChange()
 {
-	// TODO: ここにコマンド ハンドラー コードを追加します。
 	CMFCApplication4App*  pApp = (CMFCApplication4App*)AfxGetApp();
 	CSingleDocTemplate* p1 = pApp->m_viewArray[1];
 
